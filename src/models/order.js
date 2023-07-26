@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
-  orderDate: {
-    type: Date,
-  },
   customerName: {
     type: String,
   },
@@ -13,13 +10,6 @@ const orderSchema = mongoose.Schema({
   status: {
     type: String,
   },
-  productList: [
-    {
-      productId: { type: String },
-      productName: { type: String },
-      quantity: { type: Number },
-    },
-  ],
   checklist: { type: String },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

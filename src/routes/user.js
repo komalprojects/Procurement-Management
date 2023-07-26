@@ -3,9 +3,13 @@ const User = require('../models/user');
 const route = new express.Router();
 const auth = require('../middleware/auth');
 
+//1st user register as admin
 route.post('/users', async (req, res) => {
-  const user = new User(req.body);
+  if (req.body.role !== 'ADMIN') {
+    res.status(400).send('role must be admin');
+  }
   try {
+    const user = new User(req.body);
     const token = await user.generateAuthToken();
     await res.status(201).send({ user, token });
   } catch (e) {
@@ -13,10 +17,10 @@ route.post('/users', async (req, res) => {
   }
 });
 
+//login user
 route.post('/users/login', async (req, res) => {
   try {
     const user = await User.findByCredential(req.body);
-    console.log('login user' + user);
     const token = await user.generateAuthToken();
     res.send({ user, token });
   } catch (err) {
@@ -24,6 +28,7 @@ route.post('/users/login', async (req, res) => {
   }
 });
 
+//after login register new users with diff role
 route.post('/users/register', auth, async (req, res) => {
   try {
     const currentUser = req.user;
@@ -37,14 +42,12 @@ route.post('/users/register', auth, async (req, res) => {
   }
 });
 
+//get all user under particular user this just for practice purpose not able to get users as per role
 route.get('/users', auth, async (req, res) => {
   try {
     const id = await req.user._id;
-    console.log({ createdBy: { createById: id } });
     const result = await User.find({ createdBy: { createById: id } });
-    const allRestult = await User.find({});
-    console.log(result, allRestult);
-    await res.status(201).send(result);
+    await res.status(200).send(result);
   } catch (e) {
     res.status(500).send(e);
   }

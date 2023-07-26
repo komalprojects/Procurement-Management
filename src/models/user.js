@@ -50,8 +50,9 @@ const userSchema = mongoose.Schema({
       trim: true,
     },
     createById: {
-      type: String,
-      trim: true,
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'User',
     },
     createByRole: {
       type: String,
@@ -108,14 +109,15 @@ userSchema.statics.findByCredential = async (req) => {
 
 userSchema.statics.findByRole = async (currentUser, user) => {
   let newUser = {};
+  const createdBy = {
+    createByName: currentUser.name,
+    createById: currentUser._id,
+    createByRole: currentUser.role,
+  };
   if (currentUser.role === 'ADMIN') {
     newUser = {
       ...user,
-      createdBy: {
-        createByName: currentUser.name,
-        createById: new mongoose.Types.ObjectId(currentUser._id),
-        createByRole: currentUser.role,
-      },
+      createdBy,
     };
   } else if (
     currentUser.role === 'PROCUREMENT_MANAGER' &&
@@ -124,11 +126,7 @@ userSchema.statics.findByRole = async (currentUser, user) => {
   ) {
     newUser = {
       ...user,
-      createdBy: {
-        createByName: currentUser.name,
-        createById: new mongoose.Types.ObjectId(currentUser._id),
-        createByRole: currentUser.role,
-      },
+      createdBy,
     };
   } else {
     throw new Error('you are not authorized person to create user or role your selected is not correct ');
