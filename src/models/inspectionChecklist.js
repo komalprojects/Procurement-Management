@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const checkListSchema = mongoose.Schema({
-  orderId: {
+const inspectionCheckList = mongoose.Schema({
+  checklistId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Order',
+    ref: 'CheckList',
     required: true,
   },
   name: {
@@ -27,10 +27,8 @@ const checkListSchema = mongoose.Schema({
       },
     },
   ],
-
-  image: { type: String },
 });
 
-const Checklist = mongoose.model('Checklist', checkListSchema);
+const InspectionChecklist = mongoose.model('InspectionChecklist', inspectionCheckList);
 
-module.exports = Checklist;
+module.exports = InspectionChecklist;

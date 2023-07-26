@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/user');
 const route = new express.Router();
 const auth = require('../middleware/auth');
+const mongoose = require('mongoose');
 
 //1st user register as admin
 route.post('/users', async (req, res) => {
@@ -42,11 +43,11 @@ route.post('/users/register', auth, async (req, res) => {
   }
 });
 
-//get all user under particular user this just for practice purpose not able to get users as per role
+//get all user under particular user 
 route.get('/users', auth, async (req, res) => {
   try {
     const id = await req.user._id;
-    const result = await User.find({ createdBy: { createById: id } });
+    const result = await User.find({ 'createdBy.createById': new mongoose.Types.ObjectId(id) });
     await res.status(200).send(result);
   } catch (e) {
     res.status(500).send(e);

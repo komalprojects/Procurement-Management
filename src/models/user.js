@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const userSchema = mongoose.Schema({
@@ -24,6 +23,10 @@ const userSchema = mongoose.Schema({
       if (!validator.isEmail(value)) {
         throw new Error('mail not valid');
       }
+      // const count = this.constructor.countDocuments({ uniqueField: value });
+      // if (count !== 0) {
+      //   throw new Error('Email already present');
+      // }
     },
   },
   phone: {
@@ -32,6 +35,12 @@ const userSchema = mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
+    // validate(value) {
+    //   const count = this.constructor.countDocuments({ uniqueField: value });
+    //   if (count !== 0) {
+    //     throw new Error('Phone Number already present');
+    //   }
+    // },
   },
   password: {
     type: String,

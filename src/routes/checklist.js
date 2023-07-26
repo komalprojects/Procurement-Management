@@ -54,15 +54,15 @@ routes.get('/checklist/:id/image', async (req, res) => {
 
 // Create a new checklist for particular order
 routes.post('/checklist', auth, async (req, res) => {
-  if (!['INSPECTION_MANAGER', 'PROCUREMENT_MANAGER'].includes(req.user.role)) {
+  if (!['PROCUREMENT_MANAGER'].includes(req.user.role)) {
     res.status(400).send({ error: 'you cant add/edit checklist' });
   }
   try {
-    const { orderId, questions, answers } = req.body;
+    const { orderId, name, fields } = req.body;
     const newChecklist = new CheckList({
       orderId,
-      questions,
-      answers,
+      name,
+      fields,
     });
 
     const savedChecklist = await newChecklist.save();
