@@ -28,7 +28,7 @@ routes.post('/inspectionChecklist/:id', auth, async (req, res) => {
 // Get checklist by inspection checklist ID
 routes.get('/inspectionChecklist', auth, async (req, res) => {
   try {
-    if (!['INSPECTION_MANAGER', 'PROCUREMENT_MANAGER'].includes(req.user.role)) {
+    if (!['INSPECTION_MANAGER', 'PROCUREMENT_MANAGER', 'ADMIN'].includes(req.user.role)) {
       res.status(400).send({ error: `you can't view checklist` });
     }
     const checklist = await InspectionChecklist.findOne({});

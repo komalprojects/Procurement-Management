@@ -12,7 +12,7 @@ route.post('/users', async (req, res) => {
   try {
     const user = new User(req.body);
     const token = await user.generateAuthToken();
-    await res.status(201).send({ user, token });
+    res.status(201).send({ user, token });
   } catch (e) {
     res.status(400).send(e);
   }
@@ -36,7 +36,7 @@ route.post('/users/register', auth, async (req, res) => {
     const user = await User.findByRole(currentUser, req.body);
     const registerUser = new User(user);
     const token = await registerUser.generateAuthToken();
-    await res.status(201).send({ registerUser, token });
+    res.status(201).send({ registerUser, token });
   } catch (err) {
     console.log(err);
     res.status(400).send(`error:${err}`);

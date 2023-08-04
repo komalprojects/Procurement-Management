@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "eee1acc1-efb1-414a-9c1f-ed71b5a5d1fa",
+		"name": "Procurement Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"admin1\",\n    \"role\":\"ADMIN\",\n    \"phone\":\"09876543210\",\n    \"email\":\"komal@test.com\",\n    \"password\":\"Test@123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" if(pm.response.code === 200) {",
+							"        console.log(pm.response.json().token)",
+							"        pm.environment.set('authToken',pm.response.json().token)",
+							" }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\":\"09876543210\",\n    \"password\":\"Test@123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlNzM1MzdhZjcxMDYyZmRjN2EwY2UiLCJpYXQiOjE2OTAyNjE4Mjd9.xaVwVQk9pzOMnEERtSabya4WRsmGBKJCZiR_nFmjfnA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Client\",\n  \"role\": \"CLIENT\",\n  \"email\": \"client1@test.com\",\n  \"phone\": \"0987643246\",\n  \"password\": \"Test@123\"\n \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/users/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlNzM1MzdhZjcxMDYyZmRjN2EwY2UiLCJpYXQiOjE2OTAzNTIxNzh9.IyMFlunyNIzv5bhFNxMP2H2h29jaa1rE0Px20iWWBvs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlNzM1MzdhZjcxMDYyZmRjN2EwY2UiLCJpYXQiOjE2OTAyNzExNDd9.9nGsFsPY7sybf_b-Ue0coZAEZ1LXfFEgceV3Jwyw04A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"customerName\": \"komal\",\n    \"shippingAddress\": \"pune\",\n    \"status\": \"placed\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/order",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/order",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlMjA5ZThlN2U1YzljYjhlNGMwYTkiLCJpYXQiOjE2OTAyODU3ODJ9.3rb8DmU_VQi1p1-YpHSBuLjgq72LkG_ZDSzqdY3Ufrs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\":\"shipped\",\n    \"customerName\":\"patil\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/order/64bfa45b0df07a8fc8e12cf5",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"order",
+						"64bfa45b0df07a8fc8e12cf5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post checklist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlNzM1MzdhZjcxMDYyZmRjN2EwY2UiLCJpYXQiOjE2OTAzNzQxNTF9.MOqwlFIdcze7uGHvc0UQAxPLVBJgtKLdCcN-p1uFRBc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "aut",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": \"64bfa45b0df07a8fc8e12cf5\",\n    \"name\": \"Testing check list\",\n    \"fields\": [\n        {\n            \"type\": \"radio\",\n            \"name\": \"Cooler Present\",\n            \"options\": [\n                \"yes\",\n                \"no\"\n            ],\n            \"isRequired\": true\n        },\n        {\n            \"type\": \"dropdown\",\n            \"name\": \"Category\",\n            \"options\": [\n                \"Eatable\",\n                \"Drinkable\",\n                \"Medicine\"\n            ],\n            \"isRequired\": true\n        },\n        {\n            \"type\": \"checkbox\",\n            \"name\": \"Driver Details\",\n            \"options\": [\n                \"License Present\",\n                \"Driver Number Active\",\n                \"Vehical RC Book Present\"\n            ],\n            \"isRequired\": true\n        },\n        {\n            \"type\": \"textbox\",\n            \"name\": \"Note\",\n            \"isRequired\": false\n        },\n        {\n            \"type\": \"file\",\n            \"name\": \"Loading Image\",\n            \"isRequired\": true\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/checklist",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"checklist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post image",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJlNzM1MzdhZjcxMDYyZmRjN2EwY2UiLCJpYXQiOjE2OTAzNTI3MzJ9.BVMHSGWg2xTGE34JHGZqp7L4xTrL1AiFcf_OflSuihQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/home/neosoft/Nodejs/node-course-images/profile-pic.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/checklist/64bfa45b0df07a8fc8e12cf5/image",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"checklist",
+						"64bfa45b0df07a8fc8e12cf5",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post inspection checklist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJmNzdiMDcxNDYxYzI0ZTA2ZDFmMTkiLCJpYXQiOjE2OTAzNzQ2MjF9.Yd-qBosOHIE532a6t4DDIbBenl35l_zDwev_wN9AhVM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Testing check list\",\n    \"fields\": [\n        {\n            \"type\": \"radio\",\n            \"name\": \"Cooler Present\",\n            \"options\": [\n                \"yes\"\n            ],\n            \"isRequired\": true\n        },\n        {\n            \"type\": \"dropdown\",\n            \"name\": \"Category\",\n            \"options\": [\n                \"Eatable\"\n            ],\n            \"isRequired\": true\n        },\n        {\n            \"type\": \"checkbox\",\n            \"name\": \"Driver Details\",\n            \"options\": [\n                \"License Present\"\n            ],\n            \"isRequired\": true\n        },\n        {\n            \"type\": \"textbox\",\n            \"name\": \"Note\",\n            \"isRequired\": false\n        },\n        {\n            \"type\": \"file\",\n            \"name\": \"Loading Image\",\n            \"isRequired\": true\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/inspectionChecklist/64c11016bd45f7338e725efa",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inspectionChecklist",
+						"64c11016bd45f7338e725efa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get inspection checklist",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGJmNzdiMDcxNDYxYzI0ZTA2ZDFmMTkiLCJpYXQiOjE2OTAzNzQ2MjF9.Yd-qBosOHIE532a6t4DDIbBenl35l_zDwev_wN9AhVM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/inspectionChecklist/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"inspectionChecklist",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
